@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRF Synthesizer (Dorothy Day Demo)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4 md:p-8">
+
+    <div id="app" class="w-full max-w-7xl mx-auto">
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold">PRF Synthesizer (Dorothy Day Demo)</h1>
+            <p class="text-gray-600 mt-2">This is a pre-populated example to demonstrate the potential of the PRF analysis.</p>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Info -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="card p-6">
+                    <h2 class="text-xl font-bold mb-4">About This Demo</h2>
+                    <p class="text-gray-700 mb-4">The text in these boxes has been pre-filled with reflections from the perspective of Dorothy Day, based on her writings and life.</p>
+                    <p class="text-gray-700">Notice how her reflections show a profound transformation while maintaining a consistent core identity. This is the level of detail to aim for in your own work.</p>
+                </div>
+                 <div class="card p-6">
+                    <h2 class="text-xl font-bold mb-4">Your Task</h2>
+                    <p class="text-gray-700">Read through these reflections and the sample synthesis. Then, read the AI's feedback to see how it identifies themes and asks deeper questions. Use this as a model for your own PRF project.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Synthesis & Analysis -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="card p-6">
+                    <h2 class="text-xl font-bold mb-4">Review of Pre-populated Data</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-[400px] overflow-y-auto p-2 bg-gray-50 rounded-lg">
+                        <textarea id="beliefs-display" class="w-full h-full p-2 border rounded-md bg-white" readonly></textarea>
+                        <textarea id="rules-display" class="w-full h-full p-2 border rounded-md bg-white" readonly></textarea>
+                        <textarea id="ontology-display" class="w-full h-full p-2 border rounded-md bg-white" readonly></textarea>
+                        <textarea id="authenticity-display" class="w-full h-full p-2 border rounded-md bg-white" readonly></textarea>
+                        <textarea id="assembly_history-display" class="w-full h-full p-2 border rounded-md bg-white" readonly></textarea>
+                        <textarea id="future_pull-display" class="w-full h-full p-2 border rounded-md bg-white" readonly></textarea>
+                    </div>
+                </div>
+                <div class="card p-6">
+                    <h2 class="text-xl font-bold mb-4">Sample Synthesis</h2>
+                    <textarea id="synthesis-input" class="w-full h-80 p-3 border border-gray-300 rounded-lg" readonly></textarea>
+                    
+                    <div id="ai-analysis-card" class="mt-6">
+                        <h3 class="font-semibold mb-2 text-indigo-700 text-xl">Sample AI Analysis & Feedback</h3>
+                        <div id="ai-analysis-display" class="w-full min-h-[100px] p-3 bg-gray-50 border rounded-lg whitespace-pre-wrap"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const displays = {
+                beliefs: document.getElementById('beliefs-display'),
+                rules: document.getElementById('rules-display'),
+                ontology: document.getElementById('ontology-display'),
+                authenticity: document.getElementById('authenticity-display'),
+                assembly_history: document.getElementById('assembly_history-display'),
+                future_pull: document.getElementById('future_pull-display'),
+                synthesis: document.getElementById('synthesis-input'),
+                ai: document.getElementById('ai-analysis-display'),
+            };
+
+            const demoData = {
+                beliefs: `(General)\nMy most fundamental belief is that every person is created in the image of God and therefore possesses an inalienable dignity. This is not an abstract idea; it is a call to action. It means that the works of mercy—feeding the hungry, sheltering the homeless—are not optional charity, but a direct obligation of faith.\n\n(Specific Challenge: Pacifism during WWII)\nMy belief in this context was that the methods of war are fundamentally incompatible with the teachings of Christ. To kill another person, even in a 'just' cause, is to violate their sacred dignity. I believe that the only true revolution is a revolution of the heart, achieved through nonviolence, personal sacrifice, and love, not through bombs and bullets.`,
+                rules: `(General)\nThe primary rule of the Catholic Worker is voluntary poverty. We choose to live on the margins with the poor, not as a form of self-punishment, but as an act of solidarity. This rule prevents us from becoming detached bureaucrats of charity and keeps us grounded in the reality of the people we serve.\n\n(Specific Challenge: Pacifism during WWII)\nMy rule was absolute pacifism. This was not a passive position, but an active one. It meant refusing to support the war effort, publishing pacifist arguments in our newspaper, and accepting the criticism and alienation that came with it. The rule was to bear witness to the truth of the Gospel, even when the state and even parts of the Church declared it unpatriotic.`,
+                ontology: `(General)\nThe most real things in the world are the spiritual realities: love, sacrifice, and the presence of Christ in the poor. Economic systems, political states, and wars are powerful, but they are temporary and ultimately less real than the eternal soul of a single person. My focus is on the 'little way'—small, concrete acts of love, which have more lasting reality than grand political schemes.\n\n(Specific Challenge: Pacifism during WWII)\nIn this situation, the 'facts' were of patriotism, national security, and the evil of the enemy. But my interpretation was that the ultimate reality was the universal brotherhood of all people under God. The war created an ontology of 'us' versus 'them', but my framework insisted that there is only 'us'. This ontological commitment made pacifism the only logical choice.`,
+                authenticity: `(General)\nMy authentic self is a fusion of the radical and the devout. I see no contradiction between protesting for workers' rights and praying the rosary. To be authentic is to live a life where my political actions are a direct expression of my faith. When I was arrested for civil disobedience, I felt completely authentic, because my protest was a form of prayer.\n\n(Specific Challenge: Pacifism during WWII)\nI felt a tension between my love for my country and my commitment to nonviolence. The 'mask' I had to resist wearing was that of a quiet, compliant Catholic who supported the state without question. The cost of my authenticity was to be labeled a traitor by some. But the cost of inauthenticity would have been a betrayal of my conscience and my God.`,
+                assembly_history: `My assembly history is a story of two conversions. First, as a young woman, I was converted to the cause of social justice through my work as a journalist and activist in bohemian, socialist circles. Second, after the birth of my daughter, I underwent a profound spiritual conversion to Catholicism. The central challenge and achievement of my life was to integrate these two conversions, refusing to abandon my radical commitment to the poor while embracing the discipline and sacraments of the Church. The Catholic Worker movement was the synthesis of this history.`,
+                future_pull: `My 'future pull' was always the creation of a society 'where it is easier for people to be good.' This meant building small, decentralized, agrarian communities based on cooperation, not competition. My legacy is not in a grand political victory, but in the thousands of 'houses of hospitality' that continue to practice the works of mercy and bear witness to a different way of living. The capability I always sought to develop was to see Christ in every person I met, no matter how broken or destitute.`,
+                synthesis: `My Personal Reality Framework is built on the ontological conviction that the spiritual dignity of each person is the ultimate reality. This belief, forged in my 'assembly history' of both radical politics and Catholic conversion, created a primary rule: to live in solidarity with the poor through voluntary poverty and nonviolence. This framework provides my measure of authenticity; I am most myself when my political protest and my prayer are one and the same action.\n\nThis created a profound 'temporal incoherence' during World War II, as the demands of the state were in direct conflict with my commitment to pacifism. However, my 'future pull'—the vision of a society where it is easier to be good—provided the necessary constraint on my present actions. To support the war would have been to betray that future. My synthesis is that a truly radical life is one of radical love, expressed through concrete, daily acts of mercy that challenge the violent and unjust systems of the world.`,
+                ai: `Thank you for these powerful and deeply coherent reflections. Your framework demonstrates an extraordinary integration of faith, political action, and personal commitment.\n\n**Key Themes:**\n1.  **Faith as Radical Action:** A core theme is your refusal to separate the spiritual from the political. For you, prayer and protest are two sides of the same coin, and the works of mercy are not just charity but a form of nonviolent resistance to an unjust world.\n2.  **Solidarity as a Way of Knowing:** You consistently emphasize that truth is found not in abstract doctrines but in direct, personal solidarity with the poor and marginalized. Voluntary poverty is not just a rule, but a method for maintaining an authentic connection to the reality you care about most.\n3.  **The 'Little Way':** Your framework rejects grand, impersonal solutions in favor of small, concrete, and personal acts of love. This ontological focus on the 'little way' gives your life's work its remarkable consistency and power.\n\n**Potential Tensions:**\n- Your framework is built on an absolute commitment to nonviolence and personalism. How do you reconcile this with the reality that large-scale political and structural changes are often necessary to alleviate the very suffering you seek to address? Is there a tension between the 'little way' and the need for systemic change?\n\n**A Question for Deeper Synthesis:**\n- You integrated two seemingly opposed worlds: bohemian radicalism and traditional Catholicism. What can your life's synthesis teach us about how individuals today can bridge the growing divides between secular and spiritual, or progressive and traditional, worldviews?`
+            };
+
+            Object.keys(displays).forEach(key => {
+                if (demoData[key]) {
+                    displays[key].value = demoData[key];
+                    displays[key].textContent = demoData[key];
+                }
+            });
+        });
+    </script>
+</body>
+</html>
