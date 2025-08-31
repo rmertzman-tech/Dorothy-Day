@@ -15,35 +15,45 @@
             border-radius: 1rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+        .btn {
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 p-4 md:p-8">
 
     <div id="app" class="w-full max-w-7xl mx-auto">
         
-        <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="text-4xl font-bold">PRF Synthesizer (Dorothy Day Demo)</h1>
             <p class="text-gray-600 mt-2">This is a pre-populated example to demonstrate the potential of the PRF analysis.</p>
         </div>
 
-        <!-- Main Workspace -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Left Column: Info -->
             <div class="lg:col-span-1 space-y-6">
                 <div class="card p-6">
                     <h2 class="text-xl font-bold mb-4">About This Demo</h2>
-                    <p class="text-gray-700 mb-4">The text in these boxes has been pre-filled with reflections from the perspective of Dorothy Day, based on her writings and life.</p>
-                    <p class="text-gray-700">Notice how her reflections show a profound transformation while maintaining a consistent core identity. This is the level of detail to aim for in your own work.</p>
+                    <p class="text-gray-700 mb-4">The text in these boxes has been pre-filled with reflections from the perspective of Dorothy Day, based on her writings and life's work.</p>
+                    <p class="text-gray-700">Read through the reflections, and then use the button below to load this data into the main Synthesizer app for analysis.</p>
+                    <button id="load-demo-btn" class="btn btn-primary w-full mt-4 py-3 rounded-lg font-semibold">Load this Demo into Synthesizer</button>
                 </div>
                  <div class="card p-6">
                     <h2 class="text-xl font-bold mb-4">Your Task</h2>
-                    <p class="text-gray-700">Read through these reflections and the sample synthesis. Then, read the AI's feedback to see how it identifies themes and asks deeper questions. Use this as a model for your own PRF project.</p>
+                    <p class="text-gray-700">After loading the data, open the main PRF Synthesizer. You can then use the "Guided Synthesis" feature to have a conversation with the AI tutor about this example, providing a model for your own analysis.</p>
                 </div>
             </div>
 
-            <!-- Right Column: Synthesis & Analysis -->
             <div class="lg:col-span-2 space-y-6">
                 <div class="card p-6">
                     <h2 class="text-xl font-bold mb-4">Review of Pre-populated Data</h2>
@@ -60,7 +70,7 @@
                     <h2 class="text-xl font-bold mb-4">Sample Synthesis</h2>
                     <textarea id="synthesis-input" class="w-full h-80 p-3 border border-gray-300 rounded-lg" readonly></textarea>
                     
-                    <div id="ai-analysis-card" class="mt-6">
+                    <div class="mt-6">
                         <h3 class="font-semibold mb-2 text-indigo-700 text-xl">Sample AI Analysis & Feedback</h3>
                         <div id="ai-analysis-display" class="w-full min-h-[100px] p-3 bg-gray-50 border rounded-lg whitespace-pre-wrap"></div>
                     </div>
@@ -83,20 +93,53 @@
             };
 
             const demoData = {
-                beliefs: `(General)\nMy most fundamental belief is that every person is created in the image of God and therefore possesses an inalienable dignity. This is not an abstract idea; it is a call to action. It means that the works of mercy—feeding the hungry, sheltering the homeless—are not optional charity, but a direct obligation of faith.\n\n(Specific Challenge: Pacifism during WWII)\nMy belief in this context was that the methods of war are fundamentally incompatible with the teachings of Christ. To kill another person, even in a 'just' cause, is to violate their sacred dignity. I believe that the only true revolution is a revolution of the heart, achieved through nonviolence, personal sacrifice, and love, not through bombs and bullets.`,
-                rules: `(General)\nThe primary rule of the Catholic Worker is voluntary poverty. We choose to live on the margins with the poor, not as a form of self-punishment, but as an act of solidarity. This rule prevents us from becoming detached bureaucrats of charity and keeps us grounded in the reality of the people we serve.\n\n(Specific Challenge: Pacifism during WWII)\nMy rule was absolute pacifism. This was not a passive position, but an active one. It meant refusing to support the war effort, publishing pacifist arguments in our newspaper, and accepting the criticism and alienation that came with it. The rule was to bear witness to the truth of the Gospel, even when the state and even parts of the Church declared it unpatriotic.`,
-                ontology: `(General)\nThe most real things in the world are the spiritual realities: love, sacrifice, and the presence of Christ in the poor. Economic systems, political states, and wars are powerful, but they are temporary and ultimately less real than the eternal soul of a single person. My focus is on the 'little way'—small, concrete acts of love, which have more lasting reality than grand political schemes.\n\n(Specific Challenge: Pacifism during WWII)\nIn this situation, the 'facts' were of patriotism, national security, and the evil of the enemy. But my interpretation was that the ultimate reality was the universal brotherhood of all people under God. The war created an ontology of 'us' versus 'them', but my framework insisted that there is only 'us'. This ontological commitment made pacifism the only logical choice.`,
-                authenticity: `(General)\nMy authentic self is a fusion of the radical and the devout. I see no contradiction between protesting for workers' rights and praying the rosary. To be authentic is to live a life where my political actions are a direct expression of my faith. When I was arrested for civil disobedience, I felt completely authentic, because my protest was a form of prayer.\n\n(Specific Challenge: Pacifism during WWII)\nI felt a tension between my love for my country and my commitment to nonviolence. The 'mask' I had to resist wearing was that of a quiet, compliant Catholic who supported the state without question. The cost of my authenticity was to be labeled a traitor by some. But the cost of inauthenticity would have been a betrayal of my conscience and my God.`,
-                assembly_history: `My assembly history is a story of two conversions. First, as a young woman, I was converted to the cause of social justice through my work as a journalist and activist in bohemian, socialist circles. Second, after the birth of my daughter, I underwent a profound spiritual conversion to Catholicism. The central challenge and achievement of my life was to integrate these two conversions, refusing to abandon my radical commitment to the poor while embracing the discipline and sacraments of the Church. The Catholic Worker movement was the synthesis of this history.`,
-                future_pull: `My 'future pull' was always the creation of a society 'where it is easier for people to be good.' This meant building small, decentralized, agrarian communities based on cooperation, not competition. My legacy is not in a grand political victory, but in the thousands of 'houses of hospitality' that continue to practice the works of mercy and bear witness to a different way of living. The capability I always sought to develop was to see Christ in every person I met, no matter how broken or destitute.`,
-                synthesis: `My Personal Reality Framework is built on the ontological conviction that the spiritual dignity of each person is the ultimate reality. This belief, forged in my 'assembly history' of both radical politics and Catholic conversion, created a primary rule: to live in solidarity with the poor through voluntary poverty and nonviolence. This framework provides my measure of authenticity; I am most myself when my political protest and my prayer are one and the same action.\n\nThis created a profound 'temporal incoherence' during World War II, as the demands of the state were in direct conflict with my commitment to pacifism. However, my 'future pull'—the vision of a society where it is easier to be good—provided the necessary constraint on my present actions. To support the war would have been to betray that future. My synthesis is that a truly radical life is one of radical love, expressed through concrete, daily acts of mercy that challenge the violent and unjust systems of the world.`,
-                ai: `Thank you for these powerful and deeply coherent reflections. Your framework demonstrates an extraordinary integration of faith, political action, and personal commitment.\n\n**Key Themes:**\n1.  **Faith as Radical Action:** A core theme is your refusal to separate the spiritual from the political. For you, prayer and protest are two sides of the same coin, and the works of mercy are not just charity but a form of nonviolent resistance to an unjust world.\n2.  **Solidarity as a Way of Knowing:** You consistently emphasize that truth is found not in abstract doctrines but in direct, personal solidarity with the poor and marginalized. Voluntary poverty is not just a rule, but a method for maintaining an authentic connection to the reality you care about most.\n3.  **The 'Little Way':** Your framework rejects grand, impersonal solutions in favor of small, concrete, and personal acts of love. This ontological focus on the 'little way' gives your life's work its remarkable consistency and power.\n\n**Potential Tensions:**\n- Your framework is built on an absolute commitment to nonviolence and personalism. How do you reconcile this with the reality that large-scale political and structural changes are often necessary to alleviate the very suffering you seek to address? Is there a tension between the 'little way' and the need for systemic change?\n\n**A Question for Deeper Synthesis:**\n- You integrated two seemingly opposed worlds: bohemian radicalism and traditional Catholicism. What can your life's synthesis teach us about how individuals today can bridge the growing divides between secular and spiritual, or progressive and traditional, worldviews?`
+                beliefs: `My core belief, the one that animated my entire life, is that the teachings of the Gospels are not metaphors but a direct command for how we must live. I believe in the 'personalist' revolution: that societal change begins with the individual's commitment to performing the works of mercy—feeding the hungry, clothing the naked, sheltering the homeless. I also hold a deep belief in voluntary poverty, not as a punishment, but as a path to solidarity with the poor and a means of rejecting a materialistic society that I see as fundamentally unjust.`,
+                rules: `A primary rule of my life was to "see Christ in every person," especially the most destitute and difficult. This rule guided every decision at the Catholic Worker houses. Another rule was absolute nonviolence and pacifism. This was not a political tactic but a spiritual commitment; I refused to support any war, including World War II, a stance that brought much criticism. Finally, I had a rule of 'precarity'—to live without savings or security, trusting in Providence to provide for our daily needs. This was a constant, lived rejection of the capitalist system.`,
+                ontology: `My ontology was rooted in the Catholic understanding of reality. I believed in the 'Mystical Body of Christ'—the idea that all people are interconnected parts of a single spiritual organism. For me, this was not an abstract doctrine but a lived reality. An injury to one person was an injury to the whole body. What was most 'real' to me were the spiritual truths of faith, community, and the dignity of every human soul. The economic and political systems that ignored these truths were, in my view, less real and ultimately unsustainable.`,
+                authenticity: `Authenticity for me was the daily struggle to close the gap between my professed faith and my actual actions. It would have been inauthentic to pray in church and then ignore the homeless person on the street outside. My authenticity was tested daily in the chaos of the hospitality houses, in facing criticism from both the Church and secular radicals, and in choosing to be arrested for my beliefs. My authentic self was not a saintly figure, but a flawed person constantly trying, and often failing, to live up to the radical demands of the Gospel.`,
+                assembly_history: `My assembly history began in the bohemian, radical, and socialist circles of Greenwich Village in my youth. I was an activist, a journalist, and a single mother who had an abortion—experiences that gave me a deep understanding of human suffering and a distrust of abstract ideologies. My conversion to Catholicism in 1927 was not a rejection of my social justice roots, but a reframing of them. The birth of my daughter, Tamar, was the key event; it filled me with a sense of gratitude so profound that it led me to God, and in turn, to a new way of serving the poor that integrated my faith with my lifelong commitment to the oppressed.`,
+                future_pull: `My 'future pull' was the vision of a society "where it is easier for people to be good." This was not a utopian dream, but a practical goal to be built one small act at a time. I envisioned a decentralized network of agrarian communities and urban houses of hospitality, where people could live lives of purpose, service, and dignity outside the dehumanizing systems of industrial capitalism and the state. This vision of a society built on personal responsibility and mutual aid created a present constraint, guiding every decision we made in the Catholic Worker Movement.`,
+                synthesis: `My framework is built on the radical and unwavering belief that the Gospels are a practical blueprint for social revolution, not just a guide for personal piety. This ontological commitment to a spiritually interconnected reality directly informs my primary rule: to see the face of Christ in every person I meet, especially the poor and the outcast, and to serve them without question.\n\nMy personal authenticity was forged in the difficult, daily work of bridging my past as a secular radical with my present as a devout Catholic. My assembly history gave me the unique language to speak to both worlds. To believe in the works of mercy and not perform them would have been the deepest inauthenticity. The 'future pull' of a society where it is easier for people to be good provided the blueprint for the Catholic Worker Movement. My synthesis is this: faith is not an escape from the world, but a deeper engagement with its suffering. True revolution is not achieved through violence or political power, but through the slow, patient, and often thankless work of love and personal responsibility.`,
+                ai: `Thank you for these profound and deeply integrated reflections. Your framework demonstrates a rare and powerful coherence between spiritual belief and radical social action.\n\n**Key Themes:**\n1.  **Lived Theology:** A central theme is your commitment to translating abstract theological concepts (the Mystical Body of Christ, the works of mercy) into direct, concrete, daily action. Your faith is not something you merely believe, but something you do.\n2.  **Radical Rejection of Systems:** You consistently position your work in opposition to the dominant systems of capitalism and the nation-state. Your commitment to voluntary poverty and pacifism are not just personal choices, but acts of resistance against what you see as dehumanizing forces.\n3.  **The Personalist Revolution:** You emphasize that true social change starts with the individual. The transformation of society is the sum total of countless individual transformations and acts of personal responsibility.\n\n**Potential Tensions:**\n- You held a firm belief in absolute pacifism, even during a conflict like World War II, which many saw as a necessary fight against an undeniable evil. How did you reconcile your commitment to nonviolence with the argument that inaction could lead to a greater evil prevailing?\n\n**A Question for Deeper Synthesis:**\n- You dedicated your life to building small, decentralized communities of mutual aid. If the Catholic Worker Movement were to become massively successful and mainstream, would it risk becoming the kind of large, impersonal system you originally set out to resist? How does a movement scale without losing its soul?`
             };
 
+            const loadDemoBtn = document.getElementById('load-demo-btn');
+            const DATA_KEYS = {
+                beliefs: 'prf_beliefs_data',
+                rules: 'prf_rules_data',
+                ontology: 'prf_ontology_data',
+                authenticity: 'prf_authenticity_data',
+                assembly_history: 'prf_assembly_history_data',
+                future_pull: 'prf_future_pull_data'
+            };
+
+            function showMessage(message, type = 'success') {
+                const toast = document.createElement('div');
+                toast.textContent = message;
+                let bgColor = type === 'success' ? 'bg-green-600' : 'bg-red-600';
+                toast.className = `fixed top-5 left-1/2 -translate-x-1/2 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg transition-opacity duration-300`;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.style.opacity = '0', 2700);
+                setTimeout(() => toast.remove(), 3000);
+            }
+            
+            // Populate the display boxes on page load
             Object.keys(displays).forEach(key => {
                 if (demoData[key]) {
                     displays[key].value = demoData[key];
                     displays[key].textContent = demoData[key];
+                }
+            });
+
+            loadDemoBtn.addEventListener('click', () => {
+                try {
+                    Object.keys(DATA_KEYS).forEach(key => {
+                        localStorage.setItem(DATA_KEYS[key], demoData[key]);
+                    });
+                    showMessage('Demo data has been successfully saved to your browser. You can now load it in the main PRF Synthesizer app.');
+                } catch (e) {
+                    console.error("Error saving to localStorage:", e);
+                    showMessage('Could not save demo data. Your browser may be in private mode or have storage disabled.', 'error');
                 }
             });
         });
