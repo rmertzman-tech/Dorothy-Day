@@ -103,6 +103,7 @@
                 ai: `Thank you for these profound and deeply integrated reflections. Your framework demonstrates a rare and powerful coherence between spiritual belief and radical social action.\n\n**Key Themes:**\n1.  **Lived Theology:** A central theme is your commitment to translating abstract theological concepts (the Mystical Body of Christ, the works of mercy) into direct, concrete, daily action. Your faith is not something you merely believe, but something you do.\n2.  **Radical Rejection of Systems:** You consistently position your work in opposition to the dominant systems of capitalism and the nation-state. Your commitment to voluntary poverty and pacifism are not just personal choices, but acts of resistance against what you see as dehumanizing forces.\n3.  **The Personalist Revolution:** You emphasize that true social change starts with the individual. The transformation of society is the sum total of countless individual transformations and acts of personal responsibility.\n\n**Potential Tensions:**\n- You held a firm belief in absolute pacifism, even during a conflict like World War II, which many saw as a necessary fight against an undeniable evil. How did you reconcile your commitment to nonviolence with the argument that inaction could lead to a greater evil prevailing?\n\n**A Question for Deeper Synthesis:**\n- You dedicated your life to building small, decentralized communities of mutual aid. If the Catholic Worker Movement were to become massively successful and mainstream, would it risk becoming the kind of large, impersonal system you originally set out to resist? How does a movement scale without losing its soul?`
             };
 
+            const DEMO_NAME = 'Dorothy Day';
             const loadDemoBtn = document.getElementById('load-demo-btn');
             const DATA_KEYS = {
                 beliefs: 'prf_beliefs_data',
@@ -112,6 +113,7 @@
                 assembly_history: 'prf_assembly_history_data',
                 future_pull: 'prf_future_pull_data'
             };
+            const DEMO_NAME_KEY = 'prf_current_demo_name';
 
             function showMessage(message, type = 'success') {
                 const toast = document.createElement('div');
@@ -133,10 +135,11 @@
 
             loadDemoBtn.addEventListener('click', () => {
                 try {
+                    localStorage.setItem(DEMO_NAME_KEY, DEMO_NAME);
                     Object.keys(DATA_KEYS).forEach(key => {
                         localStorage.setItem(DATA_KEYS[key], demoData[key]);
                     });
-                    showMessage('Demo data has been successfully saved to your browser. You can now load it in the main PRF Synthesizer app.');
+                    showMessage('Demo data has been successfully saved. You can now load it in the main PRF Synthesizer app.');
                 } catch (e) {
                     console.error("Error saving to localStorage:", e);
                     showMessage('Could not save demo data. Your browser may be in private mode or have storage disabled.', 'error');
